@@ -1,6 +1,8 @@
 --cpu Cortex-M3
 ".\ministm32\main.o"
 ".\ministm32\stm32f10x_it.o"
+".\ministm32\utils.o"
+".\ministm32\config.o"
 ".\ministm32\misc.o"
 ".\ministm32\stm32f10x_adc.o"
 ".\ministm32\stm32f10x_bkp.o"
