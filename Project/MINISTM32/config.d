@@ -12,3 +12,4 @@
 .\ministm32\config.o: ..\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h
 .\ministm32\config.o: ..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_usart.h
 .\ministm32\config.o: ..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h
+.\ministm32\config.o: pwm.h

@@ -6,54 +6,37 @@
 
 #include "utils.h"
 #include "config.h"
+#include "pwm.h"
 
-uint8_t PWMState = 0;
-uint16_t PWMHighTime = 5000;
-uint16_t PWMLowTime = 5000;
-uint16_t PWMTotal = 10000;
+extern uint8_t PWMState;
+extern uint32_t PWMHighTime;
+extern uint32_t PWMLowTime;
+extern uint32_t PWMTotal;
 
 void USART1_IRQHandler(void)
 {
-	uint8_t data;
+	char buf[100];
 	unsigned long freq;
 	double duty;
 	
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
 	{
-			data = USART_ReceiveData(USART1);
-			
-			switch(data)
+			scanf("%s", buf);
+			printf("Received:%s\n", buf);
+			if(sscanf(buf, "duty=%lf", &duty) == 1)
 			{
-				case 'w':
-					PWMHighTime += 1000;
-					PWMLowTime = PWMTotal - PWMHighTime;
-					break;
-				case 's':
-					PWMHighTime -= 1000;
-					PWMLowTime = PWMTotal - PWMHighTime;
-					break;
-				case 'e':
-					PWMTotal /= 2;
-					PWMHighTime /= 2;
-					PWMLowTime /= 2;
-					break;
-				case 'd':
-					PWMTotal *= 2;
-					PWMHighTime *= 2;
-					PWMLowTime *= 2;
-					break;
-				default:
-					break;
+				setDuty(duty);
 			}
+			else if(sscanf(buf, "freq=%ld", &freq) == 1)
+			{
+				setFreq(freq);
+			}
+			else
+			{
+				printf("Wrong Command!\n");
+			}
+			printf("Duty:%f, Freq:%ld\n", (double) PWMHighTime / PWMTotal, PWM_FREQ / PWMTotal);
 			
-			USART_SendData(USART1, data);
-			
-			freq = 72000000UL / ((uint32_t) PWMHighTime + (uint32_t) PWMLowTime);
-			duty = (double) PWMHighTime / ((double) PWMHighTime + (double) PWMLowTime);
-			
-			printf("\nFrequency:%ld Hz\n", freq);
-			
-			printf("\nDucy ratio:%lf\n", duty);
 	}
 }
 
@@ -102,6 +85,7 @@ int main(void)
 	RCC_Config();
 	GPIO_Config();
 	USART_Config(9600);
+	PWM_Config();
 	Timer2_Config();
 	
 	while(1)

@@ -1,4 +1,5 @@
 #include "config.h"
+#include "pwm.h"
 
 void RCC_Config(void)
 {
@@ -29,7 +30,7 @@ void RCC_Config(void)
 void GPIO_Config(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -42,7 +43,7 @@ void Timer2_Config(void)
 	NVIC_InitTypeDef NVIC_InitStructure;
 	
 	TIM_TimeBaseStructure.TIM_Period = 65535;
-	TIM_TimeBaseStructure.TIM_Prescaler = 0;
+	TIM_TimeBaseStructure.TIM_Prescaler = PWM_PRESCALE;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 	

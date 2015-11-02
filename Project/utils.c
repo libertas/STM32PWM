@@ -14,7 +14,7 @@ int fgetc(FILE *fp)
 	int ch = 0;
   while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
 
-  ch = (int)USART3->DR & 0xFF;
+  ch = (int)USART1->DR & 0xFF;
 	
 	return ch;
 }
