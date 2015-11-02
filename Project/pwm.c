@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "pwm.h"
 
 uint8_t PWMState;
@@ -15,8 +16,15 @@ void PWM_Config()
 
 void setDuty(double duty)
 {
-	unsigned long freq;
-	
+	if(duty >= 0 && duty <= 1)
+	{
+		PWMHighTime = PWMTotal * duty;
+		PWMLowTime = PWMTotal - PWMHighTime;
+	}
+	else
+	{
+		printf("Wrong Duty!\n");
+	}
 }
 
 void setFreq(unsigned long freq)
