@@ -12,6 +12,8 @@ void PWM_Config()
 	PWMTotal = 10000;
 	PWMHighTime = 5000;
 	PWMLowTime = 5000;
+	setFreq(56);
+	setDuty(0.08);
 }
 
 void setDuty(double duty)
